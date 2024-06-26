@@ -1,0 +1,107 @@
+Reading comprehension for Impcore
+=================================
+
+###  Instructions ###
+
+Edit this file, `cqs-impcore.txt`, to answer the questions below. There are
+markers indicating where you should write your answers for each question.
+
+Once you've edited the file, submit it by following the steps outlined on the
+homework spec.
+
+### Readings and Questions ###
+
+Please read pages 17--26 in *Programming Languages: Build, Prove, and Compare*.
+
+1.  What is the value of the following Impcore expression?
+
+        (if (> 3 5) 17 99)
+
+    99
+
+2.  Which of the following best describes the syntactic structure of
+    Impcore?
+
+    (a)   An expression can be made with any definition as one of its parts
+    (b)   A definition can be made with any expression as one of its parts
+    (c)   Both of the above
+    (d)   None of the above
+
+    > (b)
+
+3.  Does the following Impcore test pass? Please answer "yes" or "no."
+
+        (check-expect (+ 1 2 3) 6)
+
+    > no
+
+    Assuming `x` is bound to a global variable, does the following
+    Impcore test pass? Again, please answer "yes" or "no."
+
+        (check-expect (set x 1) 1)
+
+    > yes
+
+
+In *Seven Lessons in Program Design*, found on the course website, read the
+Introduction and Lesson 1.
+
+4.  I show you a recursive function `f` that takes one argument, 
+    a natural number `n`.  The structure of `n`, and therefore the
+    internal structure of `f`, are based on the Peano proof system from
+    the handout.
+
+    (a) What are the different ways `n` can be formed?
+
+    > Forms of n: 
+    i) 0
+    ii) (m + 1)
+    
+    (b) In the implementation of `f`, what Impcore code should `f` use to
+        test the form of `n`?
+
+    > for the first form : (= n 0)
+      for the second form : (= n (+ m 1))
+    
+    (c) For which forms of `n` do you expect `f` to make a recursive call? This
+        should match one of the forms you provided in part (a).
+
+    > (m + 1)
+
+    (d) When a recursive call is made, what value is passed as the argument?
+        Write this value as an Impcore expression.
+
+    > m
+    
+Read the section titled "What is a contract?" in the Course Style Guidelines
+on the course website.
+
+5.  Suppose I write a contract for a `power` function that says, "this
+    function multiplies $x$ by itself $n$ times."  According to our
+    expectations, is this a good contract or a bad contract?
+    Please answer "good" or "bad."
+
+    > bad
+    the contract should mention what it returns
+
+6.  In *Seven Lessons in Program Design*, just before the end of
+    Lesson 1, you will find a section on "Complete process examples."
+    This section suggests that the `factorial` function---but not the
+    `power` function---could be submitted without a contract.
+    
+    (a) Why would it be OK to submit the `factorial` function without
+        a contract?  For an idea, look at the "Exemplary" column in
+        the "Documentation" section of the general coding rubric.
+
+    > It would be OK o submit the `factorial` function without a contract
+    because here the contract is clear from the function's name and that is 
+    sufficient.
+
+    (b) Why doesn't the same argument apply to the `power` function?
+        For an idea, check the design lesson.
+
+    > Here, even though we know what a power function does, the contract is 
+    not trivial because we need to know which argument is the base and which
+    is the power. 
+
+You're all done!
