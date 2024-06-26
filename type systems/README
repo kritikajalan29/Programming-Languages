@@ -1,18 +1,18 @@
 README
-CS 105 - HW06: ML
+CS 105 - HW07: Type Systems
 
-Name: Kritika Jalan
+Name: Kritika Jalan (kjalan01)
+Partner : Rivan Mehra (rmehra01)
 
 Parts of the assignment completed:
         1. CQs 
-        2. warmup.sml (Part B) 
-        3. mlscheme-improved.sml (Part C)
+        2. lists.pdf (Part A theory) 
+        3. typed-funs.scm (Part B)
+        4. timpcore.sml (Part C)
+        5. tuscheme.sml (Part D)
+        6. regression.scm (Part D testing)
 
-Improvement: 
-My code improved from 5.22s to 1.30s after implementing the freeIn and improve
-functions
 
 Others with whom you have collaborated or discussed the assignment:
 
 1. Taken guidance from Office Hour TAs - thank you!
-2. Discussed ideas with Oli Uy and Ishaan Arora
