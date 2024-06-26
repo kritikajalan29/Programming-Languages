@@ -1,0 +1,232 @@
+Reading comprehension for Type Systems
+======================================
+
+###  Instructions ###
+
+Edit this file, `cqs-typesys.txt`, to answer the questions below. There are
+markers indicating where you should write your answers for each question.
+Once you've edited the file, submit it by following the steps outlined on the
+homework spec.
+
+###  Questions  ###
+
+IMPORTANT NOTE FOR THIS ASSIGNMENT: Unlike most assignments, we strongly suggest
+interleaving working on the CQs with working on the theory and programming
+portions. Specifically, we advise this approach to working on the assignment,
+which will roughly follow the flow of concepts covered in lecture:
+
+ -- Work on CQ 1. 
+ -- Tackle the theory portion of the assignment (Part A). 
+ -- Work on CQs 3 and 4. 
+ -- Tackle Part C and begin working on Part D of the programming portion.
+ -- Work on CQ 2.
+ -- Tackle Part B of the programming portion. 
+
+For question 1, read section 6.3 about how Typed Impcore is extended with
+arrays. Skip the paragraphs about array evaluation at the end of section 6.3.2
+(from "Array operations expect arrays and integers..." to the end of that
+section). 
+
+ 1. This question refers to code chunk 348, which shows the cases that have to
+    be added to the type checker for Typed Impcore to handle arrays.
+
+    For each case, name the type-system rule that applies.  Each
+    answer should be a rule name like Apply or GlobalAssign.
+
+      * The rule for case `| ty (AAT (a, i)) = ...` is: ArrayAt
+
+
+      * The rule for case `| ty (APUT (a, i, e)) = ...` is: ArrayPut
+
+
+      * The rule for case `| ty (AMAKE (len, init)) = ...` is: ArrayMake
+
+
+      * The rule for case `| ty (ASIZE a) = ...` is: ArraySize
+
+
+    Now pick one of the rules and explain, in informal English, what
+    the rule is supposed to do.
+
+      > ArrayAt returns the element of the given array (a) at the given index
+      (i).
+
+    _This problem is getting you ready for Parts A and C of the homework._
+
+For question 2, read section 6.6.3 on quantified types in Typed μScheme.  Make
+sure you read the transcripts in the first couple pages of that section: each
+value that has a quantified type (e.g., `length`, `cons`, `car`) is instantiated
+later in the transcript, giving you more examples to relate back to the prose.
+Here are two important things to keep in mind as you read this section:
+
+-- This section refers to "kinds", which are covered in lecture but not yet in
+   any reading; if you want a quick refresher on them, read the first two
+   paragraphs of section 6.6.2.
+
+-- Typed uScheme types are written in 4 different ways in the textbook (Ugh...).
+   The first 3 have lots of similarities, i.e., they all have some version of
+   "forall" written, and type constructors are always written to the left of
+   their type arguments. The fourth is funkier:
+
+    (1) The concrete syntax you'd see in a Typed uScheme program (see code chunk
+        357b for some examples). For example, a function taking a polymorphic
+        list and returning an integer would be written as: 
+        
+            (forall ['a] ((list 'a) -> int))
+
+    (2) The abstract syntax you'd see in the ML interpreter, i.e., how a Typed
+        uScheme type is represented in the interpreter. This syntax is defined
+        with an algebraic data type in code chunk 357a, and an example of using
+        that syntax to construct a big type is shown at the top of page 381.
+        The type of the function mentioned in (1) would be written with this ML
+        expression:
+
+            FORALL (["a"], 
+                    FUNTY ([CONAPP (TYCON "list", [TYVAR "a"])], 
+                           TYCON "int"))
+
+    (3) The abstract syntax you'd see in a kinding rule, which determines the
+        kind of a type (see the rules on page 355 and 357). This syntax uses the
+        greek letter α ("alpha") with subscripts to denote different type
+        variables. The type of the function mentioned in (1) would be written
+        with this notation in a kinding rule:
+
+            FORALL(<α>, CONAPP(TYCON(list), TYVAR(α)) →  TYCON(int))
+
+    (4) An "algebraic notation" used to write out types in prose and some
+        examples. This one is really annoying because it always puts type
+        constructors AFTER the constructor's type arguments, following the
+        notation used in ML program's for ML types (e.g., typing [] in the mosml
+        interpreter tells you the empty list has type "'a list" instead of 
+        "list 'a"). The type of the function from (1) would be written as
+        follows:
+        
+            `∀α . α list → int`
+
+
+
+ 2. (a) Assume variable `syms` holds a list of symbols (it has type
+        `(list sym)`).  What expression do you write to compute its
+        length? Pick exactly one of the options below.
+
+        1. `(length syms)`
+        2. `((o length sym) syms)`
+        3. `((@ length sym) syms)`
+        4. `((length sym) syms)`
+
+        > 3
+
+
+    (b) You are given a function `positive?` of type `(int -> bool)`.
+        Using the predefined function `o`, which has type
+        `(forall ('a 'b 'c) (('b -> 'c) ('a -> 'b) -> ('a -> 'c)))`,
+        what code do you write to compose `positive?` with `not`?
+
+        > ((@ o int bool bool) not positive)
+
+    (c) In testing, we sometimes use a three-argument function `third`
+        that ignores its first two arguments and returns its third
+        argument.  Such a function has type
+
+            (forall ('a 'b 'c) ('a 'b 'c -> 'c))
+
+        Using a `val` definition, define function `third` (which has the above
+        type) in Typed μScheme.  You will need to use both `type-lambda` and
+        `lambda`.
+
+        > val third (type-lambda ['a 'b 'c] (lambda ([x : 'a] [y : 'b] [z : 'c])
+                                                                             z))
+
+    _You are ready to start Part B of the homework._
+
+
+For the rest of the questions, read section 6.6.5 about typing rules for
+expressions and definitions in Typed μScheme. The final part of the section on
+type checking refers to some functions that you will be using/implementing in
+your code, including the eqType function; read the definition of eqType in code
+chunk 370a to learn how two types are checked for equality in the Typed μScheme
+interpreter.
+
+ 3. For each of the Typed μScheme expressions below, say if it is well typed,
+    and if so, **what type it has**.  If the expression is not well typed, say
+    what typing rule fails and why.
+
+        ; (a)
+        (if #t 1 #f)
+
+        > Ill-Typed. Fails IF rule where e2 and e3 should be of same type. 
+
+        ; (b)
+        (let ([x 1]
+              [y 2])
+           (+ x y))
+
+        > Well-Typed. Expression has type int.
+
+        ; (c)
+        (lambda ([x : int]) x)
+
+        > Well-Typed. Expression has type (int -> int).
+
+        ; (d)
+        (lambda ([x : 'a]) x)
+
+        > Ill-Typed. Fails LAMBDA rule because 'a is not necessarily of *. 
+
+        ; (e)
+        (type-lambda ['a] (lambda ([x : 'a]) x))
+
+        > Well-Typed. Expression has type ('a -> 'a).
+  
+    _You are almost ready for Part D._
+
+
+ 4. Writing a type checker amounts to implementing a set of typing inference
+    rules. Most of the premises and judgment forms found in Typed μScheme's
+    rules already have been implemented with functions provided in the
+    `tuscheme.sml` interpreter; a full list of these functions and their
+    correspondence to the rules can be found in table 6.4 on page 367. 
+    
+    For each of the following Typed uScheme expressions, list __all__ the
+    functions from the table that you will use to help type check that
+    expression, and what you will use that function to do. Use the table and the
+    inference rules for the expression form to answer this question.
+    
+    Here is an example to show what we're looking for:
+
+    To type-check SET(x, e), we will use functions:
+
+      - `typeof`, to recursively typecheck e
+      - `find`, to ensure x has a type and to retrieve that type
+      - `eqType`, to make sure the type of x and the type of e are equivalent
+
+    (a) To type-check IF(e1, e2, e3), we will use functions:
+
+        - `typeof`, to get types of e1, e2 and e3
+        - `eqType`, to make sure type of e1 is bool
+        - `eqType`, to make sure the type of e2 and the type of e3 are 
+            equivalent
+
+
+    (b) To type-check WHILE(e1, e2), we will use functions:
+
+        - `typeof`, to get type of e1 and e2
+        - `eqType`, to make sure type of e1 is bool
+
+
+
+    (c) To type-check LETX (LET, binds, e), we will use functions: 
+
+        - `typeof`, to get type of all right hand side expressions (e1, e2.. en)
+            in `binds`
+        - `bind` , to bind all the variable names (x1, x2.. xn) to respective 
+        types of right hand side expressions (e1, e2.. en)
+        - `typeof`, to get type of e with new bindings.
+
+
+
+    _You are ready for Part D._
+
+
+
+
