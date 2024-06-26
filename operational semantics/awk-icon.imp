@@ -1,0 +1,13 @@
+
+;; (unbound? ) sets an unbound variable x to 1
+
+(define unbound? ()
+    
+    (set x 1))
+
+;; function call followed by expression x 
+
+(unbound?)
+x
+
+

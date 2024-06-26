@@ -1,0 +1,155 @@
+Reading comprehension for operational semantics
+=================================
+
+###  Instructions ###
+
+Edit this file, `cqs-opsem.txt`, to answer the questions below. There are
+markers indicating where you should write your answers for each question.
+
+If your editor is not good with Greek letters, you can spell out their
+names: ξ is $\xi$, ϕ is $\phi$, and ρ is $\rho$.
+
+Once you've edited the file, submit it by following the steps outlined on the
+homework spec.
+
+### Readings and Questions ###
+
+For questions 1--9, please read pages 28--37 in *Programming Languages: Build,
+Prove, and Compare* (the book sections on environments and on operational
+semantics of expressions). These questions are multiple-choice.
+
+ 1. $\xi$ (ξ) is an environment that maps names to
+
+    (a) *only* user-defined functions.
+    (b) *only* the values of formal parameters.
+    (c) *both* primitive and user-defined functions.
+    (d) the values of *both* global variables and formal parameters.
+    (e) *only* primitive functions.
+    (f) *only* the values of global variables.
+
+    > (f) 
+
+ 2. $\phi$ (ϕ) is an environment that maps names to
+
+    (a) *only* user-defined functions.
+    (b) *only* the values of formal parameters.
+    (c) *both* primitive and user-defined functions.
+    (d) the values of *both* global variables and formal parameters.
+    (e) *only* primitive functions.
+    (f) *only* the values of global variables.
+
+    > (c)
+
+ 3. $\rho$ (ρ) is an environment that maps names to
+
+    (a) *only* user-defined functions.
+    (b) *only* the values of formal parameters.
+    (c) *both* primitive and user-defined functions.
+    (d) the values of *both* global variables and formal parameters.
+    (e) *only* primitive functions.
+    (f) *only* the values of global variables.
+
+    > (b)
+
+ 4. In the operational semantics, what kind of a thing does the
+    metavariable $e$ stand for?
+
+    (a) an environment
+    (b) an Impcore variable
+    (c) a function
+    (d) an expression
+    (e) a value
+
+    > (d)
+
+ 5. In the operational semantics, what kind of a thing does the
+    metavariable $v$ stand for?
+
+    (a) an environment
+    (b) an Impcore variable
+    (c) a function
+    (d) an expression
+    (e) a value
+
+    > (e)
+
+ 6. In the operational semantics, what kind of a thing does the
+    phrase "ρ{x ↦ 7}(x)" ($\rho\{x \mapsto 7\}(x)$) stand for?
+
+    (a) an environment
+    (b) an Impcore variable
+    (c) a function
+    (d) an expression
+    (e) a value
+
+    > (e)
+
+ 7. In the operational semantics, what kind of a thing does the
+    phrase "ρ{x ↦ 7}{x ↦ 8}" ($\rho\{x \mapsto 7\}\{x \mapsto 8\}$)
+    stand for?
+
+    (a) an environment
+    (b) an Impcore variable
+    (c) a function
+    (d) an expression
+    (e) a value
+
+    > (a)
+
+
+ 8. Between pages 28--37, how many distinct, named rules are written with the IF
+    syntactic form in the conclusion (don't use the rules written on page 78 to
+    answer this questions)? 
+
+    > 2
+
+ 9. Between pages 28--37, how many distinct, named rules are written with the
+    APPLY syntactic form in the conclusion (don't use page 78)?
+
+    > 5
+
+Now let's understand a subtle point about rules. Study the FormalVar
+and FormalAssign rules starting on page 32.  In FormalVar, the initial
+and final states have the same $\rho$ (ρ).  But in the FormalAssign rule,
+there is an initial state with $\rho$ (ρ), an intermediate state with
+$\rho'$ (ρ'), and a final state with ρ'{x ↦ v} ($\rho'\{x \mapsto v\}$).
+Answer these questions:
+
+10. In rule FormalVar, the initial and final state have the same $\rho$ (ρ) 
+    because
+
+    (a) Evaluating $x$ might change the value of some formal parameter.
+    (b) Evaluating $x$ must change the value of any formal parameter.
+    (c) Evaluating $x$ doesn't change the value of any formal parameter.
+
+    > (c)
+      
+11. In rule FormalAssign, there is an intermediate state with $\rho'$ (ρ')
+    (rho-prime) because
+
+    (a) Evaluating $e$ might change the value of some formal parameter.
+    (b) Evaluating $e$ must change the value of any formal parameter.
+    (c) Evaluating $e$ doesn't change the value of any formal parameter.
+
+    >  (a)
+
+    
+For this last question, please read from the bottom of page 55 to page 59 in
+*Programming Languages: Build, Prove, and Compare* (the book sections on
+derivations). NOTE that there is a typo: on page 59, "...and an environment ρ
+in which ρ(n) = 8" should say "...and an environment ρ in which ρ(n) = 7."
+
+12. Consider the sample derivation on page 57 and the discussion on page 33
+    about environments and primes. 
+    The same $\rho$ (ρ) is used throughout the derivation on page 57 
+    (i.e., there are no primes on any $\rho$) because
+
+    (a) Primes appear when evaluating unknown expressions, but every expression
+        in the derivation is known, i.e., there are no metavariables in the
+        Impcore syntax appearing in the derivation. 
+        Thus there is no need for a $\rho'$ (ρ') (rho-prime).
+    (b) When writing a derivation, you don't need to use primes on environments.
+    (c) The general semantic rules used in the derivation never affect the
+        formal parameter environment $\rho$ (ρ).
+
+    > (c)
