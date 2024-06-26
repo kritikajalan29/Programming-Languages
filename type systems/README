@@ -1,0 +1,18 @@
+README
+CS 105 - HW06: ML
+
+Name: Kritika Jalan
+
+Parts of the assignment completed:
+        1. CQs 
+        2. warmup.sml (Part B) 
+        3. mlscheme-improved.sml (Part C)
+
+Improvement: 
+My code improved from 5.22s to 1.30s after implementing the freeIn and improve
+functions
+
+Others with whom you have collaborated or discussed the assignment:
+
+1. Taken guidance from Office Hour TAs - thank you!
+2. Discussed ideas with Oli Uy and Ishaan Arora
