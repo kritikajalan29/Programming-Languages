@@ -1,0 +1,58 @@
+;; LITERAL TESTS
+(check-principal-type 1 int)
+(check-principal-type #t bool)
+(check-principal-type 'a sym)
+(check-principal-type '(1 2) (list int))
+(check-principal-type '(1) (list int))
+(check-principal-type '() (forall ['a] (list 'a)))
+
+;; IF TESTS
+(check-principal-type (if #t 1 2) int)
+(check-principal-type (if #t #t #f) bool)
+(check-type-error (if #t 1 #f))
+(check-type-error (if 1 #t #f))
+
+;; BEGIN TESTS
+(check-principal-type (begin #t #t #f 4 #f) bool)
+(check-principal-type (begin #t #t #f 4 6) int)
+(check-principal-type (begin) unit)
+(check-type-error (begin (if 1 2 3) #f))
+
+;; LAMBDA TESTS
+(check-principal-type (lambda (jeff a b c) #t)
+                      (forall ['a 'b 'c 'd] ('a 'b 'c 'd -> bool)))
+(check-principal-type (lambda (x y)  x ) (forall ['a 'b] ('a 'b -> 'a)))
+(check-principal-type (lambda (x y) (+ x y)) (int int -> int))
+(check-principal-type (lambda (x y) (= x y)) (forall ['a] ('a 'a -> bool)))
+(check-principal-type (lambda (y) (=  1 y)) (int -> bool))
+(check-principal-type (lambda (a x y) (if a x y))
+                      (forall ['a] (bool 'a 'a -> 'a)))
+(check-type-error (lambda (x y) (+ x #t)))
+(check-type-error (lambda (x y) (if 4 x y)))
+
+;; LET TESTS
+(check-principal-type (let () (if #t 1 2)) int)
+(check-principal-type (let [(x 5) (y 6) (a #f)] (if a x y)) int)
+(check-principal-type (let [(z (lambda (y) (+ 1 y)))] (z 1)) int)
+(check-type-error (let [(x 5) (y 6) (a #f)] (if 5 x y)))
+(check-type-error (let [(x a) (y 6)] (+ x y)))
+(check-type-error (let [(x (if 5 #t #f)) (y 6)] x))
+
+;; LETREC TESTS
+(check-principal-type (letrec () (if #t 1 2)) int)
+(check-principal-type (letrec [(z (lambda (y) (+ 1 y)))] (z 1)) int)
+(check-principal-type (letrec [(z (lambda (a) (+ 1 a)))
+                               (y (lambda (b) (+ 2 b)))] (y (z 1))) int)
+(check-principal-type (letrec [(z (lambda (a) (+ 1 a)))
+                               (y (lambda (b) (+ 1 (z b))))] (y 2)) int)
+(check-type-error (letrec [(a (lambda () a))] (if 5 x y)))
+(check-type-error (letrec [(x (lambda (z) (if 4 z 2)))] 2))
+
+;; map, filter, exists?, and foldr.
+
+(check-principal-type map (forall ['a 'b] (('a -> 'b) (list 'a) -> (list 'b))))
+(check-principal-type filter
+                      (forall ['a] (('a -> bool) (list 'a) -> (list 'a))))
+(check-principal-type exists? (forall ['a] (('a -> bool) (list 'a) -> bool)))
+(check-principal-type foldr (forall ['a 'b] (('a 'b -> 'b) 'b (list 'a) -> 'b)))
+(check-principal-type null? (forall ['a] ((list 'a) -> bool)))
